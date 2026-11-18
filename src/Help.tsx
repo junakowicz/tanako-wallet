@@ -23,6 +23,7 @@ export function Help(p: { t: Strings; start?: Topic; onClose: () => void }) {
       .replace('{send}', t.cashOut)
       .replace('{settings}', t.settings)
       .replace('{backup}', t.backup)
+      .replace('{restore}', t.restore)
   // Opened from another screen for one guide: leaving the guide returns there.
   const leave = () => (p.start ? p.onClose() : (setTopic(null), setStep(0)))
 
@@ -40,6 +41,17 @@ export function Help(p: { t: Strings; start?: Topic; onClose: () => void }) {
               <b aria-hidden="true">{i + 1}</b>
               <span>{titles[k]}</span>
             </button>
+          ))}
+        </div>
+        <h3 className="faq-title">{t.faq.title}</h3>
+        <div className="stack">
+          {t.faq.items.map(([q, answer]) => (
+            <details key={q} className="card help">
+              <summary>{q}</summary>
+              <p className="small" style={{ marginTop: 10 }}>
+                {fill(answer)}
+              </p>
+            </details>
           ))}
         </div>
       </div>

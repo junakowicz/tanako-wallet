@@ -442,3 +442,6 @@ button:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
 .seal.close .arrow path:last-child { stroke-width: 2.4; }
 /* The one button that destroys something: the warning red. */
 .secondary.danger { color: var(--red); border-color: var(--red); }
+
+/* Help: the heading above the common questions. */
+.faq-title { margin: 26px 0 10px; }
