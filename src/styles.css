@@ -1,0 +1,444 @@
+/* Tanako: a worn banknote. Engraved serif lettering, fine-line guilloche
+   ornament and a seal, in the logo's green on aged paper, with the logo's
+   gold as accent and red only for warnings and the serial number.
+   One light, high-contrast theme, readable in full sun. Square corners. */
+/* Banknote numerals: every digit in the app is set in an ornamental face,
+   by listing a digits-only font first in the font stack. */
+@font-face {
+  font-family: 'Note Numerals';
+  src: url('../node_modules/@fontsource/rye/files/rye-latin-400-normal.woff2') format('woff2');
+  font-display: swap;
+  unicode-range: U+0030-0039;
+}
+/* The same face in full, for the wordmark. */
+@font-face {
+  font-family: 'Rye';
+  src: url('../node_modules/@fontsource/rye/files/rye-latin-400-normal.woff2') format('woff2');
+  font-display: swap;
+}
+:root {
+  color-scheme: light;
+  --paper: #e9e3c8;
+  --sheet: #f7f3e1;
+  --ink: #10271b;
+  --muted: #3f4a3f;
+  --red: #a4161a;
+  --green: #146c43;
+  --green-deep: #0c4a2d;
+  --gold: #f59e0b;
+  --orange: #bf5600;
+  --gold-ink: #8f5400;
+  --rule: 1.5px solid var(--ink);
+  /* Button plates: a cartouche with cut corners and a double engraved line, drawn as a border image. */
+  --plate: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cpath d='M8 0.75H40A7.25 7.25 0 0 0 47.25 8V40A7.25 7.25 0 0 0 40 47.25H8A7.25 7.25 0 0 0 0.75 40V8A7.25 7.25 0 0 0 8 0.75Z' fill='%23f7f3e1' stroke='%2310271b' stroke-width='1.5'/%3E%3Cpath d='M10.91 4.25H37.09A10.75 10.75 0 0 0 43.75 10.91V37.09A10.75 10.75 0 0 0 37.09 43.75H10.91A10.75 10.75 0 0 0 4.25 37.09V10.91A10.75 10.75 0 0 0 10.91 4.25Z' fill='none' stroke='%23146c43' stroke-width='.9'/%3E%3Cpath d='M12.32 6.35H35.68A12.85 12.85 0 0 0 41.65 12.32V35.68A12.85 12.85 0 0 0 35.68 41.65H12.32A12.85 12.85 0 0 0 6.35 35.68V12.32A12.85 12.85 0 0 0 12.32 6.35Z' fill='none' stroke='%23146c43' stroke-width='.45'/%3E%3Ccircle cx='3.4' cy='3.4' r='1.15' fill='%23146c43'/%3E%3Ccircle cx='44.6' cy='3.4' r='1.15' fill='%23146c43'/%3E%3Ccircle cx='3.4' cy='44.6' r='1.15' fill='%23146c43'/%3E%3Ccircle cx='44.6' cy='44.6' r='1.15' fill='%23146c43'/%3E%3C/svg%3E");
+  --plate-main: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cpath d='M8 0.75H40A7.25 7.25 0 0 0 47.25 8V40A7.25 7.25 0 0 0 40 47.25H8A7.25 7.25 0 0 0 0.75 40V8A7.25 7.25 0 0 0 8 0.75Z' fill='%23146c43' stroke='%230c4a2d' stroke-width='1.5'/%3E%3Cpath d='M10.91 4.25H37.09A10.75 10.75 0 0 0 43.75 10.91V37.09A10.75 10.75 0 0 0 37.09 43.75H10.91A10.75 10.75 0 0 0 4.25 37.09V10.91A10.75 10.75 0 0 0 10.91 4.25Z' fill='none' stroke='%23f7f3e1' stroke-width='.9'/%3E%3Cpath d='M12.32 6.35H35.68A12.85 12.85 0 0 0 41.65 12.32V35.68A12.85 12.85 0 0 0 35.68 41.65H12.32A12.85 12.85 0 0 0 6.35 35.68V12.32A12.85 12.85 0 0 0 12.32 6.35Z' fill='none' stroke='%23f7f3e1' stroke-width='.45'/%3E%3Ccircle cx='3.4' cy='3.4' r='1.15' fill='%230c4a2d'/%3E%3Ccircle cx='44.6' cy='3.4' r='1.15' fill='%230c4a2d'/%3E%3Ccircle cx='3.4' cy='44.6' r='1.15' fill='%230c4a2d'/%3E%3Ccircle cx='44.6' cy='44.6' r='1.15' fill='%230c4a2d'/%3E%3C/svg%3E");
+  --plate-btc: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cpath d='M8 0.75H40A7.25 7.25 0 0 0 47.25 8V40A7.25 7.25 0 0 0 40 47.25H8A7.25 7.25 0 0 0 0.75 40V8A7.25 7.25 0 0 0 8 0.75Z' fill='%23f7f3e1' stroke='%238a3d00' stroke-width='1.5'/%3E%3Cpath d='M10.91 4.25H37.09A10.75 10.75 0 0 0 43.75 10.91V37.09A10.75 10.75 0 0 0 37.09 43.75H10.91A10.75 10.75 0 0 0 4.25 37.09V10.91A10.75 10.75 0 0 0 10.91 4.25Z' fill='none' stroke='%23bf5600' stroke-width='.9'/%3E%3Cpath d='M12.32 6.35H35.68A12.85 12.85 0 0 0 41.65 12.32V35.68A12.85 12.85 0 0 0 35.68 41.65H12.32A12.85 12.85 0 0 0 6.35 35.68V12.32A12.85 12.85 0 0 0 12.32 6.35Z' fill='none' stroke='%23bf5600' stroke-width='.45'/%3E%3Ccircle cx='3.4' cy='3.4' r='1.15' fill='%23bf5600'/%3E%3Ccircle cx='44.6' cy='3.4' r='1.15' fill='%23bf5600'/%3E%3Ccircle cx='3.4' cy='44.6' r='1.15' fill='%23bf5600'/%3E%3Ccircle cx='44.6' cy='44.6' r='1.15' fill='%23bf5600'/%3E%3C/svg%3E");
+  /* Reading face: a sturdy grotesque, like the small lettering on modern notes. Digits stay ornamental. */
+  --serif: 'Note Numerals', 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --display: 'Playfair Display', Georgia, serif;
+  /* The reading face with ordinary digits, for dates, fees and other small print. */
+  --plain: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  /* Engraved edge for large numbers: a paper gap, then a fine green line. */
+  --engrave: 1.5px 1.5px 0 var(--sheet), 3px 3px 0 var(--green), -1px -1px 0 var(--sheet);
+  --note: 'Rye', 'Playfair Display', Georgia, serif;
+  --mono: 'Courier Prime', 'Courier New', Courier, monospace;
+  --wave-h: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='12' viewBox='0 0 32 12'%3E%3Cg fill='none' stroke='%23146c43' stroke-width='.7'%3E%3Cpath d='M0 6c4-8 12-8 16 0s12 8 16 0'/%3E%3Cpath d='M0 6c4 8 12 8 16 0s12-8 16 0'/%3E%3Cpath d='M0 6c4-4 12-4 16 0s12 4 16 0'/%3E%3Cpath d='M0 6c4 4 12 4 16 0s12-4 16 0'/%3E%3Cpath d='M0 .5h32M0 11.5h32'/%3E%3C/g%3E%3C/svg%3E");
+  --wave-v: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='32' viewBox='0 0 12 32'%3E%3Cg fill='none' stroke='%23146c43' stroke-width='.7'%3E%3Cpath d='M6 0c-8 4-8 12 0 16s8 12 0 16'/%3E%3Cpath d='M6 0c8 4 8 12 0 16s-8 12 0 16'/%3E%3Cpath d='M6 0c-4 4-4 12 0 16s4 12 0 16'/%3E%3Cpath d='M6 0c4 4 4 12 0 16s-4 12 0 16'/%3E%3Cpath d='M.5 0v32M11.5 0v32'/%3E%3C/g%3E%3C/svg%3E");
+  --rosette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg fill='none' stroke='%23146c43' stroke-opacity='.22' stroke-width='.6'%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(0 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(10 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(20 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(30 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(40 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(50 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(60 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(70 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(80 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(90 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(100 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(110 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(120 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(130 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(140 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(150 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(160 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(170 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='62' ry='20' transform='rotate(5 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='62' ry='20' transform='rotate(20 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='62' ry='20' transform='rotate(35 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='62' ry='20' transform='rotate(50 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='62' ry='20' transform='rotate(65 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='62' ry='20' transform='rotate(80 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='62' ry='20' transform='rotate(95 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='62' ry='20' transform='rotate(110 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='62' ry='20' transform='rotate(125 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='62' ry='20' transform='rotate(140 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='62' ry='20' transform='rotate(155 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='62' ry='20' transform='rotate(170 100 100)'/%3E%3Ccircle cx='100' cy='100' r='97'/%3E%3Ccircle cx='100' cy='100' r='20'/%3E%3C/g%3E%3C/svg%3E");
+  --lattice: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cg fill='none' stroke='%23146c43' stroke-opacity='.11' stroke-width='.6'%3E%3Ccircle cx='14' cy='14' r='13.6'/%3E%3Ccircle cx='0' cy='0' r='13.6'/%3E%3Ccircle cx='28' cy='0' r='13.6'/%3E%3Ccircle cx='0' cy='28' r='13.6'/%3E%3Ccircle cx='28' cy='28' r='13.6'/%3E%3C/g%3E%3C/svg%3E");
+  --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .23  0 0 0 0 .2  0 0 0 0 .12  0 0 0 .45 -.17'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: #1d2a23; color: var(--ink); }
+body {
+  font: 500 18px/1.45 var(--serif);
+  -webkit-text-size-adjust: 100%;
+}
+h1 { font-size: 1.5rem; font-weight: 800; line-height: 1.2; margin: 0; }
+h2 { font-size: 1.25rem; font-weight: 800; margin: 0; }
+/* Section titles: the banknote face, flanked by guilloche bands. */
+h3 {
+  display: flex; align-items: center; gap: 12px; margin: 22px 0 6px;
+  font: 400 1.25rem/1.1 var(--note); letter-spacing: 0.08em; color: var(--green-deep); text-align: center;
+  text-shadow: 1px 1px 0 var(--sheet), 2px 2px 0 var(--green);
+}
+h3::before, h3::after { content: ''; flex: 1; height: 12px; background: var(--wave-h) center / 32px 12px repeat-x; }
+p { margin: 0; }
+strong, b { font-weight: 700; }
+
+/* The note itself. */
+.page {
+  position: relative;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 30px 26px calc(34px + env(safe-area-inset-bottom));
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background:
+    var(--lattice),
+    radial-gradient(120% 80% at 50% 0%, #f1ecd6 0%, var(--paper) 60%, #ddd5b4 100%);
+}
+/* Engraved frame: a guilloche band between two fine lines. */
+.page::before {
+  content: '';
+  position: absolute; inset: 6px; pointer-events: none;
+  border: 1.5px solid var(--green-deep);
+  outline: 1px solid var(--green-deep); outline-offset: -15px;
+  background:
+    var(--wave-h) top / 32px 12px repeat-x,
+    var(--wave-h) bottom / 32px 12px repeat-x,
+    var(--wave-v) left / 12px 32px repeat-y,
+    var(--wave-v) right / 12px 32px repeat-y;
+}
+/* Wear: paper grain, two fold creases, handled corners. Sits over the ink. */
+.page::after {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none; z-index: 2;
+  mix-blend-mode: multiply;
+  background:
+    linear-gradient(90deg, transparent calc(50% - 2px), rgba(60, 50, 20, 0.07) 50%, transparent calc(50% + 2px)),
+    linear-gradient(180deg, transparent 329px, rgba(60, 50, 20, 0.09) 331px, transparent 333px),
+    radial-gradient(90px 90px at 0 0, rgba(120, 96, 40, 0.28), transparent 70%),
+    radial-gradient(110px 110px at 100% 100%, rgba(120, 96, 40, 0.26), transparent 70%),
+    radial-gradient(70px 70px at 100% 0, rgba(120, 96, 40, 0.18), transparent 70%),
+    radial-gradient(60px 60px at 0 100%, rgba(120, 96, 40, 0.2), transparent 70%),
+    var(--noise);
+}
+.page.center > section { margin: auto 0; text-align: center; align-items: center; }
+.top {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  min-height: 56px; padding-bottom: 20px;
+  background: var(--wave-h) bottom / 32px 12px repeat-x;
+}
+.top strong {
+  font: 400 1.2rem/1.15 var(--note); letter-spacing: 0.05em; color: var(--green-deep); text-align: right;
+  text-shadow: 1px 1px 0 var(--sheet), 2px 2px 0 var(--green);
+}
+/* The mark: the name in the banknote face, engraved, over a spaced "wallet". */
+.brand { display: flex; flex-direction: column; align-items: flex-start; }
+.brand b {
+  display: block; font: 400 1.75rem/1 var(--note); letter-spacing: 0.06em; color: var(--green-deep);
+  text-shadow: 1px 1px 0 var(--sheet), 2.5px 2.5px 0 var(--green);
+}
+.brand span {
+  display: block; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.62em; margin-top: 6px; color: var(--gold-ink);
+  padding-left: 2px;
+}
+/* Welcome screen: the mark large, in a rosette. */
+.brand.hero {
+  align-items: center; text-align: center; padding: 64px 0 52px; width: 100%;
+  background: var(--rosette) center / 230px 230px no-repeat;
+}
+.brand i { display: block; font-family: var(--display); font-size: 0.78rem; margin-top: 5px; color: var(--ink); white-space: nowrap; }
+.brand.hero b { font-size: 3.1rem; text-shadow: var(--engrave); }
+.brand.hero i { font-size: 1.1rem; margin-top: 14px; }
+.brand.hero span { font-size: 0.95rem; letter-spacing: 0.7em; margin: 12px -0.7em 0 0; padding: 0; }
+
+.stack { display: flex; flex-direction: column; gap: 14px; }
+.stack > button, .stack > .field, .stack > textarea { width: 100%; }
+.row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.row.two { align-items: stretch; }
+.row.two > * { flex: 1; }
+.card {
+  background: var(--sheet); border: var(--rule); padding: 16px;
+  box-shadow: inset 0 0 0 3px var(--sheet), inset 0 0 0 4px var(--green);
+}
+/* The balance: the note's denomination panel. */
+.card.balance {
+  position: relative; padding: 18px 18px 14px;
+  background: var(--rosette) right -50px center / 220px 220px no-repeat, var(--sheet);
+}
+.serial {
+  font: 700 0.82rem/1 var(--mono); letter-spacing: 0.14em; color: var(--red);
+  align-self: flex-end; margin-top: 6px;
+}
+/* Prompts on the home screen (alerts, install): a dashed slip, not a panel. */
+.notice { border-style: dashed; box-shadow: none; padding: 14px; gap: 10px; }
+.muted { color: var(--muted); }
+.small { font-size: 0.9rem; font-family: var(--plain); }
+.big {
+  font-size: 2.5rem; font-weight: 800; line-height: 1.12; overflow-wrap: anywhere;
+  font-variant-numeric: lining-nums tabular-nums; color: var(--green-deep);
+  text-shadow: var(--engrave); letter-spacing: 0.02em; padding-bottom: 3px;
+}
+.balance { display: flex; flex-direction: column; gap: 4px; }
+.balance .row .muted { display: flex; align-items: center; white-space: nowrap; text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.78rem; font-weight: 700; }
+.balance .row { gap: 4px; }
+
+/* Every button is a small engraved plate: cut corners, a double line, a dot in each corner. */
+button, .filebtn {
+  font: inherit; font-weight: 700; font-size: 1.05rem; line-height: 1.2; letter-spacing: 0.02em; cursor: pointer; border-radius: 0;
+  color: var(--ink); background: transparent; text-align: center;
+  border: 14px solid transparent; border-image: var(--plate) 14 fill / 14px stretch;
+  padding: 4px 6px; min-height: 58px;
+}
+button:disabled { opacity: 0.45; cursor: default; }
+button:active:not(:disabled) { transform: translateY(1px); }
+/* Main action: the same plate in solid green, with fine engraving lines and a hard shadow. */
+.primary {
+  border-image-source: var(--plate-main);
+  color: #fff; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 800;
+  filter: drop-shadow(2px 3px 0 var(--ink));
+}
+.primary:active:not(:disabled) { transform: translate(1px, 2px); filter: drop-shadow(1px 1px 0 var(--ink)); }
+.primary:disabled { filter: none; }
+.primary.huge { font-size: 1.25rem; padding: 16px 6px; }
+/* The Bitcoin entry: banknote face in deep orange. */
+.btc {
+  font: 400 1.35rem/1.1 var(--note); letter-spacing: 0.06em; color: var(--orange);
+  border-image-source: var(--plate-btc);
+  text-shadow: 1px 1px 0 var(--sheet), 2px 2px 0 rgba(191, 86, 0, 0.4);
+}
+/* Quiet actions (Back, Settings, …): a plain ruled box, lighter than a plate. */
+.link {
+  border: var(--rule); border-image: none; background: transparent; padding: 10px 16px; min-height: 48px;
+  font-size: 1rem;
+}
+.top .link { min-height: 44px; padding: 8px 14px; }
+/* Pictograms on buttons and in the history: a round seal with an arrow. */
+.ico { width: 30px; height: 30px; flex: none; }
+.ico circle { fill: none; stroke: currentColor; stroke-width: 1.4; }
+.ico .ring { stroke-width: 0.7; stroke-dasharray: 1.2 2; }
+.ico path { fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.ico path.base { stroke-width: 1.3; }
+button:has(> .ico) { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.row.two > button:has(> .ico) { flex-direction: column; gap: 6px; padding: 8px 4px; }
+.row.two .ico { width: 38px; height: 38px; color: var(--green-deep); }
+.primary.huge .ico { width: 40px; height: 40px; }
+.list .ico { width: 34px; height: 34px; }
+.list .ico-in { color: var(--green-deep); }
+.list .ico-out { color: var(--red); }
+.list li > div:first-of-type { flex: 1; min-width: 0; }
+/* Two-way switches (Ar / USD, language): one small plate; the chosen side is inked in. */
+.seg {
+  display: inline-flex; align-items: stretch; flex: none;
+  border: 10px solid transparent; border-image: var(--plate) 14 fill / 10px stretch;
+}
+.seg button {
+  border: 0; border-image: none; background: transparent; padding: 4px 12px; min-height: 34px; min-width: 46px;
+  font-weight: 700; font-size: 1rem; letter-spacing: 0.04em; color: var(--green-deep);
+}
+.seg button + button { border-left: 1px solid var(--green); }
+.seg button.on {
+  color: #fff;
+  background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.09) 0 1px, transparent 1px 3px), var(--green);
+  box-shadow: inset 0 0 0 1.5px var(--green), inset 0 0 0 2.5px rgba(255, 255, 255, 0.8);
+}
+
+.field { display: flex; flex-direction: column; gap: 6px; text-align: left; }
+.field span { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; color: var(--green-deep); }
+.field .row input { flex: 1; min-width: 0; }
+input, textarea {
+  font: 1rem/1.4 var(--mono); color: var(--ink); background: #fffdf2;
+  border: var(--rule); border-radius: 0; padding: 13px 15px; width: 100%;
+  /* The same double line as the buttons: ink outside, a fine green line inside. */
+  box-shadow: inset 0 0 0 2px #fffdf2, inset 0 0 0 3px var(--green);
+}
+input::placeholder { color: #7b8478; }
+/* Typed amounts: a clear gap between groups of three digits. */
+input.amount, input[inputmode='numeric'], input[inputmode='decimal'] { word-spacing: 0.12em; }
+input.amount.mid { font-size: 1.7rem; padding: 10px; }
+input.amount { font: 800 2.2rem/1.2 var(--serif); font-variant-numeric: lining-nums; text-align: center; padding: 16px; color: var(--green-deep); text-shadow: var(--engrave); letter-spacing: 0.03em; }
+input.amount::placeholder { text-shadow: none; }
+input:focus, textarea:focus, a:focus-visible { outline: 3px solid var(--gold); outline-offset: 0; box-shadow: 0 0 0 5px var(--ink); }
+button:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+.warn { border: 1.5px solid var(--red); border-left-width: 8px; background: var(--sheet); padding: 13px 15px; text-align: left; box-shadow: inset 0 0 0 2px var(--sheet), inset 0 0 0 3px var(--red); }
+.error { color: var(--red); font-weight: 700; }
+.banner { border: 1.5px dashed var(--ink); padding: 10px 14px; background: var(--sheet); }
+.words {
+  list-style: decimal inside; margin: 0; padding: 0; width: 100%;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; text-align: left;
+  font-family: var(--mono);
+}
+.words li { background: #fffdf2; border: 1px solid var(--ink); padding: 8px; font-size: 0.9rem; }
+
+/* Codes stay clean and above the wear layer so they always scan. */
+.qr { position: relative; z-index: 3; background: #fff; padding: 10px; border: var(--rule); outline: 1px solid var(--green); outline-offset: 3px; line-height: 0; }
+.addr { font: 0.8rem/1.4 var(--mono); overflow-wrap: anywhere; }
+.pulse { animation: pulse 1.6s steps(2, jump-none) infinite; }
+@keyframes pulse { 50% { opacity: 0.3; } }
+@media (prefers-reduced-motion: reduce) { .pulse { animation: none; } }
+
+/* Result mark: a treasury seal. */
+.result .tick {
+  width: 96px; height: 96px; display: grid; place-items: center; font-size: 3.2rem; font-weight: 900;
+  border-radius: 50%; background: var(--green); color: #fff; margin: 14px;
+  box-shadow: 0 0 0 3px var(--sheet), 0 0 0 5px var(--green), 0 0 0 9px var(--sheet), 0 0 0 10px var(--gold-ink);
+  outline: 3px dotted var(--green); outline-offset: 12px;
+}
+.result.short .tick { background: var(--red); box-shadow: 0 0 0 3px var(--sheet), 0 0 0 5px var(--red); outline-color: var(--red); }
+
+.list { list-style: none; margin: 0; padding: 0; }
+.list li { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px dotted var(--ink); }
+.list a { color: var(--green-deep); font: 700 0.9rem var(--plain); white-space: nowrap; }
+
+.steps { margin: 0; padding: 10px 0 0 24px; display: flex; flex-direction: column; gap: 6px; font-size: 0.92rem; }
+.textlink { color: var(--green-deep); font-weight: 700; }
+.filebtn { display: flex; align-items: center; justify-content: center; width: 100%; text-decoration: none; }
+.filebtn input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.filebtn:focus-within { outline: 3px solid var(--gold); outline-offset: 2px; }
+.camera { position: relative; z-index: 3; width: 100%; max-width: 360px; aspect-ratio: 1; object-fit: cover; border: var(--rule); background: #000; }
+.check { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.check { text-align: left; }
+.check input {
+  appearance: none; -webkit-appearance: none; flex: none; width: 32px; height: 32px; padding: 0; margin: 0;
+  display: grid; place-content: center; cursor: pointer;
+}
+.check input:checked { background: var(--green); box-shadow: inset 0 0 0 2px var(--green), inset 0 0 0 3px #fff; }
+.check input:checked::after { content: '✓'; color: #fff; font: 800 1.2rem/1 var(--plain); }
+.help summary { cursor: pointer; font-weight: 700; }
+
+/* Bitcoin screens: the same note printed in deep orange. */
+.theme-btc {
+  --green: var(--orange);
+  --green-deep: #8a3d00;
+  --muted: #4a3f36;
+  --plate: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cpath d='M8 0.75H40A7.25 7.25 0 0 0 47.25 8V40A7.25 7.25 0 0 0 40 47.25H8A7.25 7.25 0 0 0 0.75 40V8A7.25 7.25 0 0 0 8 0.75Z' fill='%23f7f3e1' stroke='%232a1a10' stroke-width='1.5'/%3E%3Cpath d='M10.91 4.25H37.09A10.75 10.75 0 0 0 43.75 10.91V37.09A10.75 10.75 0 0 0 37.09 43.75H10.91A10.75 10.75 0 0 0 4.25 37.09V10.91A10.75 10.75 0 0 0 10.91 4.25Z' fill='none' stroke='%23bf5600' stroke-width='.9'/%3E%3Cpath d='M12.32 6.35H35.68A12.85 12.85 0 0 0 41.65 12.32V35.68A12.85 12.85 0 0 0 35.68 41.65H12.32A12.85 12.85 0 0 0 6.35 35.68V12.32A12.85 12.85 0 0 0 12.32 6.35Z' fill='none' stroke='%23bf5600' stroke-width='.45'/%3E%3Ccircle cx='3.4' cy='3.4' r='1.15' fill='%23bf5600'/%3E%3Ccircle cx='44.6' cy='3.4' r='1.15' fill='%23bf5600'/%3E%3Ccircle cx='3.4' cy='44.6' r='1.15' fill='%23bf5600'/%3E%3Ccircle cx='44.6' cy='44.6' r='1.15' fill='%23bf5600'/%3E%3C/svg%3E");
+  --plate-main: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cpath d='M8 0.75H40A7.25 7.25 0 0 0 47.25 8V40A7.25 7.25 0 0 0 40 47.25H8A7.25 7.25 0 0 0 0.75 40V8A7.25 7.25 0 0 0 8 0.75Z' fill='%23bf5600' stroke='%238a3d00' stroke-width='1.5'/%3E%3Cpath d='M10.91 4.25H37.09A10.75 10.75 0 0 0 43.75 10.91V37.09A10.75 10.75 0 0 0 37.09 43.75H10.91A10.75 10.75 0 0 0 4.25 37.09V10.91A10.75 10.75 0 0 0 10.91 4.25Z' fill='none' stroke='%23f7f3e1' stroke-width='.9'/%3E%3Cpath d='M12.32 6.35H35.68A12.85 12.85 0 0 0 41.65 12.32V35.68A12.85 12.85 0 0 0 35.68 41.65H12.32A12.85 12.85 0 0 0 6.35 35.68V12.32A12.85 12.85 0 0 0 12.32 6.35Z' fill='none' stroke='%23f7f3e1' stroke-width='.45'/%3E%3Ccircle cx='3.4' cy='3.4' r='1.15' fill='%238a3d00'/%3E%3Ccircle cx='44.6' cy='3.4' r='1.15' fill='%238a3d00'/%3E%3Ccircle cx='3.4' cy='44.6' r='1.15' fill='%238a3d00'/%3E%3Ccircle cx='44.6' cy='44.6' r='1.15' fill='%238a3d00'/%3E%3C/svg%3E");
+  --engrave: 1.5px 1.5px 0 var(--sheet), 3px 3px 0 var(--green), -1px -1px 0 var(--sheet);
+  --wave-h: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='12' viewBox='0 0 32 12'%3E%3Cg fill='none' stroke='%23bf5600' stroke-width='.7'%3E%3Cpath d='M0 6c4-8 12-8 16 0s12 8 16 0'/%3E%3Cpath d='M0 6c4 8 12 8 16 0s12-8 16 0'/%3E%3Cpath d='M0 6c4-4 12-4 16 0s12 4 16 0'/%3E%3Cpath d='M0 6c4 4 12 4 16 0s12-4 16 0'/%3E%3Cpath d='M0 .5h32M0 11.5h32'/%3E%3C/g%3E%3C/svg%3E");
+  --wave-v: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='32' viewBox='0 0 12 32'%3E%3Cg fill='none' stroke='%23bf5600' stroke-width='.7'%3E%3Cpath d='M6 0c-8 4-8 12 0 16s8 12 0 16'/%3E%3Cpath d='M6 0c8 4 8 12 0 16s-8 12 0 16'/%3E%3Cpath d='M6 0c-4 4-4 12 0 16s4 12 0 16'/%3E%3Cpath d='M6 0c4 4 4 12 0 16s-4 12 0 16'/%3E%3Cpath d='M.5 0v32M11.5 0v32'/%3E%3C/g%3E%3C/svg%3E");
+  --rosette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg fill='none' stroke='%23bf5600' stroke-opacity='.22' stroke-width='.6'%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(0 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(10 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(20 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(30 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(40 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(50 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(60 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(70 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(80 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(90 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(100 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(110 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(120 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(130 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(140 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(150 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(160 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='96' ry='34' transform='rotate(170 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='62' ry='20' transform='rotate(5 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='62' ry='20' transform='rotate(20 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='62' ry='20' transform='rotate(35 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='62' ry='20' transform='rotate(50 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='62' ry='20' transform='rotate(65 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='62' ry='20' transform='rotate(80 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='62' ry='20' transform='rotate(95 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='62' ry='20' transform='rotate(110 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='62' ry='20' transform='rotate(125 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='62' ry='20' transform='rotate(140 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='62' ry='20' transform='rotate(155 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='62' ry='20' transform='rotate(170 100 100)'/%3E%3Ccircle cx='100' cy='100' r='97'/%3E%3Ccircle cx='100' cy='100' r='20'/%3E%3C/g%3E%3C/svg%3E");
+  --lattice: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cg fill='none' stroke='%23bf5600' stroke-opacity='.11' stroke-width='.6'%3E%3Ccircle cx='14' cy='14' r='13.6'/%3E%3Ccircle cx='0' cy='0' r='13.6'/%3E%3Ccircle cx='28' cy='0' r='13.6'/%3E%3Ccircle cx='0' cy='28' r='13.6'/%3E%3Ccircle cx='28' cy='28' r='13.6'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* History: money out reads red, money in green. */
+.list strong.out { color: var(--red); }
+.list strong.in { color: var(--green-deep); }
+
+/* Saved recipients: a name to tap, and a small remove button beside it. */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { display: inline-flex; border: 10px solid transparent; border-image: var(--plate) 14 fill / 10px stretch; }
+.chip button { border: 0; border-image: none; background: transparent; min-height: 34px; padding: 2px 10px; font-weight: 700; font-size: 1rem; }
+.chip button + button { border-left: 1px solid var(--green); font-weight: 500; color: var(--red); }
+.chip.on { border-image-source: var(--plate-main); }
+.chip.on button { color: #fff; }
+.chip.on button + button { border-left-color: rgba(255, 255, 255, 0.7); }
+.row > input.grow { flex: 1; min-width: 0; }
+
+/* The eye beside "Balance": hides or shows amounts on the home screen. */
+.eye { border: 0; border-image: none; background: transparent; min-height: 44px; min-width: 44px; padding: 0; margin-left: 4px; color: var(--green-deep); display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; }
+.eye:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+
+/* Help: one step per poster. A corner numeral, a pictogram, a headline. */
+.topics button { display: flex; align-items: center; gap: 14px; text-align: left; }
+.topics b { font: 400 1.9rem/1 var(--note); color: var(--green-deep); text-shadow: 1px 1px 0 var(--sheet), 2.5px 2.5px 0 var(--green); min-width: 30px; text-align: center; }
+.top h2 { font-size: 1.1rem; line-height: 1.25; }
+.poster { position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 20px 16px 22px; text-align: center; }
+.poster-no {
+  width: 84px; height: 84px; margin: -6px 0 -4px; display: grid; place-items: center;
+  font: 400 3rem/1 var(--note); color: var(--green-deep); text-shadow: var(--engrave);
+  background: var(--rosette) center / 84px 84px no-repeat;
+}
+.poster-art { width: 100%; max-width: 300px; }
+.poster-art svg { display: block; width: 100%; height: auto; overflow: visible; }
+.poster h2 { font-size: 1.45rem; line-height: 1.2; }
+.poster p { font-size: 1.02rem; }
+.dots { display: flex; justify-content: center; gap: 12px; padding: 2px 0; }
+.dots i { width: 10px; height: 10px; border: var(--rule); background: var(--sheet); transform: rotate(45deg); }
+.dots i.on { background: var(--green); }
+
+.hp-ink { fill: none; stroke: var(--ink); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.hp-thin { fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; }
+.hp-body { fill: #fffdf2; stroke: var(--ink); stroke-width: 3; stroke-linejoin: round; }
+.hp-key { fill: #fffdf2; stroke: var(--ink); stroke-width: 1.5; }
+.hp-dot { fill: var(--ink); }
+.hp-green { fill: var(--green); }
+.hp-gold { fill: var(--gold); stroke: var(--ink); stroke-width: 2.5; }
+.hp-txt { font: 800 13px var(--serif); fill: var(--ink); text-anchor: middle; dominant-baseline: central; }
+.hp-small { font-size: 11px; }
+.hp-white { fill: #fff; }
+.hp-mark { font: 400 34px var(--note); fill: var(--green-deep); text-anchor: middle; dominant-baseline: central; }
+.hp-tick { fill: none; stroke: #fff; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+.hp-check { stroke-width: 4; }
+.hp-ring { fill: none; stroke: var(--green); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1 9; }
+.hp-scanline { fill: none; stroke: var(--green); stroke-width: 4; stroke-linecap: round; transform: translateY(24px); }
+.hp-no { fill: none; stroke: var(--red); stroke-width: 6; stroke-linecap: round; }
+
+/* Motion explains the step; without it every pictogram still reads as a still. */
+@media (prefers-reduced-motion: no-preference) {
+  .poster { animation: hp-in 0.35s ease-out both; }
+  .hp-type { animation: hp-type 3.4s infinite backwards; }
+  .hp-press { animation: hp-press 1.1s infinite; }
+  .hp-scanline { animation: hp-scan 1.5s ease-in-out infinite alternate; }
+  .hp-flow { animation: hp-flow 0.9s linear infinite; }
+  .hp-stamp { animation: hp-stamp 2.8s infinite; transform-box: fill-box; transform-origin: center; }
+  .hp-ring { animation: hp-spin 16s linear infinite; transform-box: fill-box; transform-origin: center; }
+  .hp-enter { animation: hp-enter 3.2s ease-in-out infinite; }
+  .hp-exit { animation: hp-exit 3.2s ease-in-out infinite; }
+  .hp-fly { animation: hp-fly 2.6s ease-in-out infinite; }
+  .hp-pick { animation: hp-pick 1.8s ease-in-out infinite; }
+  .hp-check { stroke-dasharray: 30; animation: hp-draw 1.8s infinite; }
+  .hp-line { stroke-dasharray: 26; animation: hp-write 5.6s infinite backwards; }
+  .hp-drop { animation: hp-drop 3.4s ease-in-out infinite; }
+  .hp-pop { animation: hp-pop 2.6s infinite; transform-box: fill-box; transform-origin: center; }
+}
+@keyframes hp-in { from { opacity: 0; transform: translateX(28px); } }
+@keyframes hp-type { 0% { opacity: 0; } 6%, 82% { opacity: 1; } 90%, 100% { opacity: 0; } }
+@keyframes hp-press { 0%, 55%, 100% { fill: #fffdf2; } 15%, 40% { fill: var(--green); } }
+@keyframes hp-scan { from { transform: translateY(0); } to { transform: translateY(50px); } }
+@keyframes hp-flow { to { stroke-dashoffset: -13; } }
+@keyframes hp-stamp { 0% { transform: scale(1.7); opacity: 0; } 16% { transform: scale(0.93); opacity: 1; } 24%, 100% { transform: scale(1); opacity: 1; } }
+@keyframes hp-spin { to { transform: rotate(360deg); } }
+/* The first coin slides behind the counter, the second comes out, then the first returns. */
+@keyframes hp-enter {
+  0%, 15% { transform: translateX(0); opacity: 1; } 45% { transform: translateX(66px); opacity: 1; }
+  46%, 88% { transform: translateX(0); opacity: 0; } 100% { transform: translateX(0); opacity: 1; }
+}
+@keyframes hp-exit { 0%, 45% { transform: translateX(-66px); } 72%, 100% { transform: translateX(0); } }
+@keyframes hp-fly {
+  0% { transform: translate(0, 0); opacity: 0; } 12% { opacity: 1; }
+  50% { transform: translate(23px, -18px); } 88% { opacity: 1; }
+  100% { transform: translate(46px, 0); opacity: 0; }
+}
+@keyframes hp-pick { 50% { opacity: 0.6; } }
+@keyframes hp-draw { 0%, 20% { stroke-dashoffset: 30; } 50%, 100% { stroke-dashoffset: 0; } }
+@keyframes hp-write { 0% { stroke-dashoffset: 26; } 5%, 90% { stroke-dashoffset: 0; } 97%, 100% { stroke-dashoffset: 26; } }
+@keyframes hp-drop { 0%, 12% { transform: translateY(0); } 55%, 88% { transform: translateY(48px); } 100% { transform: translateY(0); } }
+@keyframes hp-pop { 0%, 30% { transform: scale(0); } 45% { transform: scale(1.2); } 55%, 100% { transform: scale(1); } }
+
+/* Help and Settings on the home screen: two round seals, a "?" and a cog. */
+.tools { display: flex; gap: 10px; flex: none; }
+.seal {
+  width: 50px; height: 50px; min-height: 0; padding: 0; border-radius: 50%;
+  border: 1.5px solid var(--ink); border-image: none; background: var(--sheet); color: var(--green-deep);
+  box-shadow: inset 0 0 0 3px var(--sheet), inset 0 0 0 4px var(--green);
+  display: grid; place-items: center;
+}
+.seal span { font: 400 1.55rem/1 var(--note); text-shadow: 1px 1px 0 var(--sheet), 2px 2px 0 var(--green); }
+.seal svg path { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linejoin: round; }
+.seal svg circle { fill: none; stroke: currentColor; stroke-width: 1.7; }
+
+/* Back: the arrow drawn like an engraved fletched arrow. */
+.arrow path { fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.arrow path:last-child { stroke-width: 1.1; }
+.back { display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: var(--green-deep); }
+.back .arrow { width: 22px; height: 22px; }
+/* The Bitcoin screen's title: the home button's lettering, larger. */
+.btc-mark {
+  font: 400 2.1rem/1.1 var(--note); letter-spacing: 0.06em; color: var(--green); text-align: center;
+  text-shadow: 1.5px 1.5px 0 var(--sheet), 3px 3px 0 rgba(191, 86, 0, 0.4);
+}
+
+/* Send and Charge: the amount sits in a denomination panel, like the balance. */
+.card.money { background: var(--rosette) right -60px center / 220px 220px no-repeat, var(--sheet); }
+.card.money .equals { text-align: center; min-height: 1.45em; }
+.card.ticket { align-items: center; text-align: center; }
+.card.ticket .big { font-size: 2.1rem; }
+.waiting { text-align: center; font-weight: 700; color: var(--green-deep); }
+.page > .primary.huge { width: 100%; }
+
+/* Three-way switch (bitcoin / dollars / ariary): narrower sides so it fits beside the label. */
+.seg.three button { min-width: 38px; padding: 4px 8px; }
+.balance .row { flex-wrap: wrap; }
+/* A bitcoin amount has eight decimals: smaller, so it stays on one line. */
+.big.long { font-size: 1.55rem; letter-spacing: 0; }
+
+/* Cancel: the same seal with an X; centred when it stands alone under a screen. */
+.seal.close { color: var(--red); flex: none; align-self: center; }
+.seal.close .arrow path:last-child { stroke-width: 2.4; }
+/* The one button that destroys something: the warning red. */
+.secondary.danger { color: var(--red); border-color: var(--red); }

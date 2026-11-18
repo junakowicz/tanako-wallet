@@ -1,0 +1,9 @@
+node_modules
+dist
+.env
+.env.local
+.firebase
+.claude
+.DS_Store
+# Advertising material: kept on this machine, not published with the code.
+marketing
